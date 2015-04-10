@@ -1,121 +1,49 @@
-¡¡#include 
+¡¡package test;
+/**
+ * µÚËÄÌâ
+ * ÔÚÖ÷´°ÌåÖÐÏÔÊ¾ËæÊó±êÒÆ¶¯µÄhelloworld
+ */
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
-¡¡¡¡<QScrollArea><QPoint>
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-¡¡¡¡
-
-¡¡¡¡class
-
-¡¡¡¡{
-
-¡¡¡¡MyScrollArea : public QScrollArea
-
-¡¡¡¡
-
-¡¡¡¡
-
-¡¡¡¡ÕâÑù¾Í¿ÉÒÔÊ¹ÓÃÕâ¸öÀàÀ´×ö´°¿ÚµÄparent£¬ÕâÑùÀïÃæµÄÄÚÈÝ¾ÍÖ§³ÖÍÏ¶¯ÁË¡£
-
-¡¡¡¡Q_OBJECT
-
-¡¡¡¡public:
-
-¡¡¡¡QWidget* parent =NULL);
-
-¡¡¡¡MyScrollArea(
-
-¡¡¡¡~MyScrollArea(){};
-
-¡¡¡¡protected
-
-¡¡¡¡:
-
-¡¡¡¡    bool eventFilter(QObject *obj, QEvent*evt);
-
-¡¡¡¡private
-
-¡¡¡¡:bool mMoveStart;bool mContinousMove;    QPoint mMousePoint; 
-
-¡¡¡¡};
-
-¡¡¡¡cppÎÄ¼þ
-
-¡¡¡¡#include <QMouseEvent>
-
-¡¡¡¡
-
-¡¡¡¡#include <QScrollBar> 
-
-¡¡¡¡#include "myscrollarea.h" 
-
-¡¡¡¡MyScrollArea::MyScrollArea(QWidget* parent) 
-
-¡¡¡¡: QScrollArea(parent)
-
-¡¡¡¡,mMoveStart(false)
-
-¡¡¡¡{
-
-¡¡¡¡installEventFilter
-
-¡¡¡¡(this);}  
-
-¡¡¡¡bool MSCScrollArea::eventFilter(QObject *obj, QEvent *evt)
-
-¡¡¡¡{
-
-¡¡¡¡    if (evt->type() == QEvent::MouseMove) {
-
-¡¡¡¡        QMouseEvent* me = (QMouseEvent*) evt;
-
-¡¡¡¡        if ((me->buttons() & Qt::LeftButton)) {
-
-¡¡¡¡            if (!mMoveStart) {
-
-¡¡¡¡                mMoveStart = true;
-
-¡¡¡¡                mContinousMove =false;
-
-¡¡¡¡                mMousePoint = me->globalPos();
-
-¡¡¡¡            }
-
-¡¡¡¡            else {
-
-¡¡¡¡                QScrollBar* scrollBar = verticalScrollBar();
-
-¡¡¡¡                QPoint p = me->globalPos();
-
-¡¡¡¡                int offset = p.y() - mMousePoint.y();
-
-¡¡¡¡                if( !mContinousMove && ( offset > -10 && offset < 10 ) )
-
-¡¡¡¡                    return false;
-
-¡¡¡¡
-
-¡¡¡¡                mContinousMove = true;
-
-¡¡¡¡               
-
-¡¡¡¡                scrollBar->setValue(scrollBar->value() - offset);
-
-¡¡¡¡                mMousePoint = p;
-
-¡¡¡¡            }
-
-¡¡¡¡            return true;
-
-¡¡¡¡        }
-
-¡¡¡¡    }
-
-¡¡¡¡    else if (evt->type() == QEvent::MouseButtonRelease) {
-
-¡¡¡¡        mMoveStart = false;
-
-¡¡¡¡    }
-
-¡¡¡¡    return QObject::eventFilter(obj, evt);
-
-¡¡¡¡}
+public class TestMoveString {
+	private static int x=200;
+	private static int y=300;
+	public static void main(String[] args) {
+		JFrame jf=new JFrame("hello  world");
+		final JPanel jp=new JPanel(){
+			public void paint(Graphics g){
+				Graphics2D g2=(Graphics2D) g;
+				g2.setColor(Color.white);
+				g2.fillRect(0, 0, 500, 400);
+				g2.setColor(Color.black);
+				g2.drawString("helloWorld", x, y);
+			}
+		};
+		jp.addMouseMotionListener(new MouseMotionListener() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// TODO Auto-generated method stub
+				x=e.getX();
+				y=e.getY();
+				jp.repaint();
+				
+			}
+		});
+		jf.add(jp);
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setSize(500, 400);
+		jf.setVisible(true);
+	}
+}
